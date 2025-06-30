@@ -16,7 +16,7 @@ Este proyecto permite **cifrar y descifrar archivos usando dos capas de cifrado 
 
 ```
 cifrado_fernet/
-├── main.py                # Script para cifrado doble con interfaz de selección
+├── encoded.py             # Script para cifrado doble con interfaz de selección
 ├── decoded.py             # Script para descifrar múltiples archivos con GUI
 ├── logs_encoded.txt       # Registro automático de los archivos cifrados
 │
