@@ -7,6 +7,8 @@ files = filedialog.askopenfilenames(
     title="Seleccione los archivos que deseas cifrar")
 
 os.makedirs("./keys", exist_ok=True)
+os.makedirs("./keys/capa1", exist_ok=True)
+os.makedirs("./keys/capa2", exist_ok=True)
 os.makedirs("./files_encoded", exist_ok=True)
 
 def nombre_unico(ruta_padre):
