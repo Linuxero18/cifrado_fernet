@@ -101,7 +101,8 @@ Este sistema es local, portátil y puede adaptarse fácilmente a proyectos más 
 
 📜 Licencia
 
-Este proyecto es libre para uso educativo y personal. Puedes copiarlo, modificarlo o adaptarlo.
+Este proyecto se distribuye bajo la licencia [MIT](./LICENSE).  
+Eres libre de usarlo, modificarlo y distribuirlo siempre que mantengas el aviso de copyright.
 
 ---
 
