@@ -1,112 +1,145 @@
-🔐 Doble Cifrado de Archivos - Proyecto Personal
+# 🔐 Doble Cifrado de Archivos con Fernet
 
-Este proyecto permite **cifrar y descifrar archivos usando dos capas de cifrado Fernet**. Está diseñado para que cada archivo tenga sus claves únicas, con una interfaz gráfica que permite descifrar múltiples archivos de forma intuitiva y segura.
+Este proyecto permite **cifrar y descifrar archivos usando dos capas de cifrado Fernet**. Cada archivo tiene sus propias claves únicas generadas automáticamente, proporcionando una capa adicional de seguridad. Incluye una **interfaz gráfica intuitiva** con `tkinter` que facilita tanto el cifrado como el descifrado de múltiples archivos.
 
 ---
 
-🛠️ Tecnologías Utilizadas
+## 🛠️ Tecnologías Utilizadas
 
-🧠 Backend y Lógica
-- Python 3.x
-- Librería `cryptography` (Fernet)
-- Módulo `tkinter` (interfaz gráfica nativa)
-- Módulo `os`, `sys`, `filedialog`, `messagebox` (control de archivos y GUI)
+### 🧠 Backend y Lógica
+- **Python 3.x**
+- [cryptography](https://cryptography.io/en/latest/) → Implementación de cifrado Fernet (AES 128-bit en modo CBC).
+- **tkinter** → Interfaz gráfica nativa para selección de archivos.
+- **os / sys / filedialog / messagebox** → Manejo de archivos, carpetas y ventanas de diálogo.
 
-📂 Estructura del Proyecto
+---
+
+## 📂 Estructura del Proyecto
 
 ```
 cifrado_fernet/
-├── encoded.py             # Script para cifrado doble con interfaz de selección
-├── decoded.py             # Script para descifrar múltiples archivos con GUI
-├── logs_encoded.txt       # Registro automático de los archivos cifrados
-│
-├── keys/                  # Claves Fernet generadas
-│   ├── capa1/             # Claves de la primera capa
-│   └── capa2/             # Claves de la segunda capa
-│
-├── files_encoded/         # Archivos cifrados con doble capa (extensión .encoded)
-├── files_decoded/         # Archivos descifrados y restaurados
+├── encoded.py               # Script para cifrar archivos con doble capa
+├── decoded.py               # Script para descifrar archivos con GUI
+├── logs_encoded.txt         # Registro automático de archivos cifrados
+├── keys/                    # Directorio de claves generadas
+│   ├── capa1/              # Claves de la primera capa de cifrado
+│   └── capa2/              # Claves de la segunda capa de cifrado
+├── files_encoded/           # Archivos cifrados (extensión .encoded)
+├── files_decoded/           # Archivos descifrados y restaurados
+└── README.md                # Documentación del proyecto
 ```
+
+> 📝 Las carpetas `keys/`, `files_encoded/` y `files_decoded/` se crean automáticamente al ejecutar los scripts.
 
 ---
 
-⚙️ Instalación
+## ⚙️ Instalación
 
 1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/Linuxero18/cifrado_fernet.git
+   cd cifrado_fernet
+   ```
 
-```bash
-git clone https://github.com/Linuxero18/cifrado_fernet.git
-cd cifrado_fernet
-```
+2. Instala la dependencia necesaria:
+   ```bash
+   pip install cryptography
+   ```
 
-2. Instala las dependencias necesarias:
-
-```bash
-pip install cryptography
-```
-
-> Nota: `tkinter` viene incluido por defecto con Python en Windows y la mayoría de sistemas Linux.
+   > ⚠️ `tkinter` ya viene instalado por defecto con Python en Windows y la mayoría de distribuciones Linux.
 
 ---
 
-🚀 ¿Cómo Funciona?
+## 🚀 ¿Cómo Funciona?
 
-🔒 Cifrado
+### 🔒 **Cifrado de Archivos**
 
-- Ejecuta `main.py`
-- Selecciona uno o más archivos
-- Se aplican **dos capas de cifrado Fernet**
-- Se generan dos claves distintas por archivo y se almacenan:
-  - `./keys/capa1/<nombre>.key`
-  - `./keys/capa2/<nombre>.key`
-- Los archivos cifrados se guardan en `./files_encoded/` con extensión `.encoded`
-- Se registra en `logs_encoded.txt` cada operación realizada
+1. Ejecuta el script de cifrado:
+   ```bash
+   python encoded.py
+   ```
 
-🔓 Descifrado
+2. Se abrirá una ventana donde deberás **seleccionar uno o más archivos** para cifrar.
 
-- Ejecuta `decoded.py`
-- Selecciona uno o varios archivos `.encoded`
-- Se abre una GUI donde debes ingresar **clave1 y clave2** por cada archivo
-- El archivo se descifra en orden inverso (capa2 → capa1)
-- El archivo original se restaura en `./files_decoded/` con su extensión original
+3. El programa realizará las siguientes acciones:
+   - Aplica **dos capas de cifrado Fernet** consecutivas.
+   - Genera **dos claves únicas** por archivo y las almacena en:
+     - `./keys/capa1/<nombre_archivo>.key`
+     - `./keys/capa2/<nombre_archivo>.key`
+   - Guarda el archivo cifrado en `./files_encoded/` con extensión `.encoded`
+   - Registra la operación en `logs_encoded.txt` con fecha y hora.
 
----
+### 🔓 **Descifrado de Archivos**
 
-✅ Funcionalidades
+1. Ejecuta el script de descifrado:
+   ```bash
+   python decoded.py
+   ```
 
-- Interfaz gráfica amigable (TKinter)
-- Validación de archivos seleccionados
-- Permite múltiples archivos en lote
-- Verificación de extensiones `.encoded`
-- Gestión visual del progreso
-- Manejo robusto de errores
-- Registro detallado de cada archivo cifrado
+2. Se abrirá una ventana donde deberás **seleccionar uno o varios archivos `.encoded`**.
 
----
+3. Aparecerá una interfaz gráfica donde deberás:
+   - Ingresar la **clave de capa 1** (primera clave).
+   - Ingresar la **clave de capa 2** (segunda clave).
+   - El sistema descifra en orden inverso: **capa2 → capa1**.
 
-🔐 Seguridad
-
-- Las claves se generan con `Fernet.generate_key()` (clave aleatoria de 32 bytes en base64).
-- Cada archivo usa **claves únicas**, lo que impide que una clave se reutilice.
-- No se almacenan archivos originales tras el cifrado.
-- Sin claves correctas, los archivos cifrados no pueden recuperarse.
+4. El archivo original se restaura en `./files_decoded/` con su extensión y nombre originales.
 
 ---
 
-📦 Producción
+## ✅ Funcionalidades
 
-Este sistema es local, portátil y puede adaptarse fácilmente a proyectos más grandes con interfaces web o almacenamiento en la nube.
+- **Doble capa de cifrado** para mayor seguridad.
+- **Claves únicas** por archivo (no se reutilizan).
+- Interfaz gráfica amigable para usuarios no técnicos.
+- Soporte para **múltiples archivos** en una sola operación.
+- **Registro automático** de todas las operaciones de cifrado.
+- Validación de extensiones `.encoded` antes de descifrar.
+- **Manejo robusto de errores** con mensajes informativos.
+- Restauración completa del nombre y extensión original del archivo.
 
 ---
 
-📜 Licencia
+## 🔐 Seguridad
+
+- Las claves se generan usando `Fernet.generate_key()` (32 bytes aleatorios en base64).
+- Cada archivo utiliza **claves únicas e irrepetibles**.
+- Sin las claves correctas, los archivos cifrados **no pueden recuperarse**.
+- El cifrado Fernet usa **AES 128-bit** en modo CBC con autenticación HMAC.
+- Los archivos originales no se conservan tras el cifrado (elimínalos manualmente si lo deseas).
+
+> ⚠️ **Importante**: Guarda las claves en un lugar seguro. Sin ellas, **no podrás recuperar tus archivos**.
+
+---
+
+## 📦 Producción y Uso Real
+
+- Compatible con **Windows, Linux y macOS**.
+- Ideal para cifrar documentos sensibles, contratos, información personal o respaldos.
+- Puede adaptarse a proyectos más grandes con interfaces web o almacenamiento en la nube.
+- Escalable para sistemas de gestión documental empresarial.
+
+---
+
+## 📜 Licencia
 
 Este proyecto se distribuye bajo la licencia [MIT](./LICENSE).  
 Eres libre de usarlo, modificarlo y distribuirlo siempre que mantengas el aviso de copyright.
 
 ---
 
-✍️ Autor
+## ✍️ Autor
 
 **Piter Muñoz Pérez**  
-📬 Desarrollador Python | Apasionado por la seguridad y automatización de procesos
+📬 Desarrollador Python
+
+---
+
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Si deseas mejorar este proyecto:
+1. Haz un fork del repositorio
+2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. Haz commit de tus cambios (`git commit -m 'Agrega nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
